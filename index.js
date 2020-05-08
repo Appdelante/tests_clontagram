@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const { generarUsuario } = require('./generadorDeData');
+const PaginaSignup = require('./paginas/paginaSignup');
 
 async function completarSignup() {
   const browser = await puppeteer.launch({
@@ -14,22 +15,11 @@ async function completarSignup() {
     waitUntil: 'networkidle0',
   });
 
-  const inputDeEmail = await page.$('form > input[name="email"]');
-  const inputDeNombre = await page.$('form > input[name="nombre"]');
-  const inputDeUsername = await page.$('form > input[name="username"]');
-  const inputDeBio = await page.$('form > input[name="bio"]');
-  const inputDePassword = await page.$('form > input[name="password"]');
+  const paginaSignup = new PaginaSignup(page);
 
   const usuario = generarUsuario();
-
-  await inputDeEmail.type(usuario.email);
-  await inputDeNombre.type(usuario.nombre);
-  await inputDeUsername.type(usuario.username);
-  await inputDeBio.type(usuario.bio);
-  await inputDePassword.type(usuario.password);
-
-  const botonDeSignup = await page.$('form > button[type="submit"]');
-  await botonDeSignup.click();
+  await paginaSignup.llenarFormularioDeSignup(usuario);
+  await paginaSignup.clickSignup();
 }
 
 completarSignup();
