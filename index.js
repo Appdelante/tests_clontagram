@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 
 const { generarUsuario } = require('./generadorDeData');
 const PaginaSignup = require('./paginas/paginaSignup');
+const { SIGNUP_URL } = require('./configuracion/urls');
 
 async function completarSignup() {
   const browser = await puppeteer.launch({
@@ -10,7 +11,7 @@ async function completarSignup() {
   const page = await browser.newPage();
 
   // Usamos la propiedad 'networkidle0' para esperar a que no hayan requests en vuelo por 500 ms
-  await page.goto('https://beta.clontagram.com/signup', {
+  await page.goto(SIGNUP_URL, {
     timeout: 15000, // 15 segundos
     waitUntil: 'networkidle0',
   });
