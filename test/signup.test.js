@@ -26,8 +26,7 @@ describe('Signup de Clontagram', () => {
   test('Debe llevar el usuario al feed luego de hacer signup', async () => {
     const usuario = generarUsuario();
     await paginaSignup.llenarFormularioDeSignup(usuario);
-    await paginaSignup.clickSignup();
-
-    // TODO: Verificar que estamos en feed
+    const paginaFeed = await paginaSignup.clickSignup();
+    await paginaFeed.verificarFeedVacioSugiereExploraClontagram();
   }, 15000);
 });
