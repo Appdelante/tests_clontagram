@@ -6,6 +6,7 @@ const SELECTOR_USERNAME = 'form > input[name="username"]';
 const SELECTOR_BIO = 'form > input[name="bio"]';
 const SELECTOR_PASSWORD = 'form > input[name="password"]';
 const SELECTOR_BOTON_SUBMIT = 'form > button[type="submit"]';
+const SELECTOR_CAJA_ERROR = "div[class='ErrorContainer']";
 
 // Page Object Model (POM)
 class PaginaSignup {
@@ -24,6 +25,10 @@ class PaginaSignup {
   async clickSignup() {
     await this.page.click(SELECTOR_BOTON_SUBMIT);
     return new PaginaFeed(this.page);
+  }
+
+  async verificarErrorEsMostrado() {
+    await this.page.waitForSelector(SELECTOR_CAJA_ERROR, { visible: true });
   }
 }
 

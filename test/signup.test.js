@@ -5,9 +5,19 @@ const PaginaSignup = require('../paginas/paginaSignup');
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
 
+const USUARIO_CON_EMAIL_YA_REGISTRADO = {
+  ...generarUsuario(),
+  email: 'pruebaprueba@gmail.com',
+};
+
+const USUARIO_CON_USERNAME_YA_REGISTRADO = {
+  ...generarUsuario(),
+  username: 'prueba',
+};
+
 let browser, page, paginaSignup;
 beforeEach(async () => {
-  browser = await puppeteer.launch({ headless: false });
+  browser = await puppeteer.launch({ headless: true });
   page = await browser.newPage();
 
   await page.goto(SIGNUP_URL, {
@@ -28,5 +38,21 @@ describe('Signup de Clontagram', () => {
     await paginaSignup.llenarFormularioDeSignup(usuario);
     const paginaFeed = await paginaSignup.clickSignup();
     await paginaFeed.verificarFeedVacioSugiereExploraClontagram();
-  }, 15000);
+  });
+
+  test('Debe mostrar un error cuando el email ya esta registrado', async () => {
+    await paginaSignup.llenarFormularioDeSignup(
+      USUARIO_CON_EMAIL_YA_REGISTRADO
+    );
+    await paginaSignup.clickSignup();
+    await paginaSignup.verificarErrorEsMostrado();
+  });
+
+  test('Debe mostrar un error cuando el username ya esta registrado', async () => {
+    await paginaSignup.llenarFormularioDeSignup(
+      USUARIO_CON_USERNAME_YA_REGISTRADO
+    );
+    await paginaSignup.clickSignup();
+    await paginaSignup.verificarErrorEsMostrado();
+  });
 });
