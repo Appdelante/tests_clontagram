@@ -6,7 +6,7 @@ const SELECTOR_BOTON_LOGIN = 'form > button[type="submit"]';
 
 class PaginaLogin {
   constructor(page) {
-    super(page);
+    this.page = page;
   }
 
   async llenarFormularioDeLogin({ email, password }) {
