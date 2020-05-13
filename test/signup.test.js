@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer');
 const { generarUsuario } = require('../generadorDeData');
+const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { SIGNUP_URL } = require('../configuracion/urls');
 const PaginaSignup = require('../paginas/paginaSignup');
 
@@ -15,21 +15,14 @@ const USUARIO_CON_USERNAME_YA_REGISTRADO = {
   username: 'prueba',
 };
 
-let browser, page, paginaSignup;
+let contexto, paginaSignup;
 beforeEach(async () => {
-  browser = await puppeteer.launch({ headless: true });
-  page = await browser.newPage();
-
-  await page.goto(SIGNUP_URL, {
-    timeout: 15000, // 15 segundos
-    waitUntil: 'networkidle0',
-  });
-
-  paginaSignup = new PaginaSignup(page);
+  contexto = await crearPagina({ url: SIGNUP_URL });
+  paginaSignup = new PaginaSignup(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
 
 afterEach(async () => {
-  await browser.close();
+  await contexto.browser.close();
 });
 
 describe('Signup de Clontagram', () => {
