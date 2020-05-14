@@ -1,12 +1,13 @@
+const PaginaBase = require('./paginaBase');
 const PaginaFeed = require('./paginaFeed');
 
 const SELECTOR_EMAIL = 'form > input[name="email"]';
 const SELECTOR_PASSWORD = 'form > input[name="password"]';
 const SELECTOR_BOTON_LOGIN = 'form > button[type="submit"]';
 
-class PaginaLogin {
+class PaginaLogin extends PaginaBase {
   constructor(page) {
-    this.page = page;
+    super(page);
   }
 
   async llenarFormularioDeLogin({ email, password }) {

@@ -1,7 +1,11 @@
 const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { LOGIN_URL } = require('../configuracion/urls');
 const PaginaLogin = require('../paginas/paginaLogin');
-const { CREDENCIALES_VALIDAS } = require('../data/credenciales');
+const {
+  CREDENCIALES_VALIDAS,
+  CREDENCIALES_EMAIL_NO_EXISTE,
+  CREDENCIALES_PASSWORD_INCORRECTO,
+} = require('../data/credenciales');
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
 
@@ -9,7 +13,7 @@ let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
     url: LOGIN_URL,
-    browserConfig: { headless: false },
+    browserConfig: { headless: true },
   });
   paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
@@ -26,5 +30,23 @@ describe('Login de Clontagram', () => {
     });
     const paginaFeed = await paginaLogin.clickLogin();
     await paginaFeed.verificarFeedVacioSugiereExploraClontagram();
+  });
+
+  test('Debe mostrar un error cuando el email no existe', async () => {
+    await paginaLogin.llenarFormularioDeLogin({
+      email: CREDENCIALES_EMAIL_NO_EXISTE.email,
+      password: CREDENCIALES_EMAIL_NO_EXISTE.password,
+    });
+    await paginaLogin.clickLogin();
+    await paginaLogin.verificarErrorEsMostrado();
+  });
+
+  test('Debe mostrar un error cuando la contraseña es incorrecta', async () => {
+    await paginaLogin.llenarFormularioDeLogin({
+      email: CREDENCIALES_PASSWORD_INCORRECTO.email,
+      password: CREDENCIALES_PASSWORD_INCORRECTO.password,
+    });
+    await paginaLogin.clickLogin();
+    await paginaLogin.verificarErrorEsMostrado();
   });
 });
