@@ -1,4 +1,5 @@
 const { crearPagina } = require('../paginas/fabricaDePaginas');
+const { clickIconoDeCamara } = require('../paginas/barraDeNavegacion');
 const { LOGIN_URL } = require('../configuracion/urls');
 const PaginaLogin = require('../paginas/paginaLogin');
 const { CREDENCIALES_VALIDAS } = require('../data/credenciales');
@@ -9,7 +10,7 @@ let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
     url: LOGIN_URL,
-    browserConfig: { headless: true },
+    browserConfig: { headless: false, slowMo: 30 },
   });
   paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
@@ -23,6 +24,7 @@ describe('Upload de Clontagram', () => {
     // Código
     await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
     await paginaLogin.clickLogin();
+    const paginaUpload = await clickIconoDeCamara(contexto.page);
     // Hacer click en icono camara
     // 1. Poner esa función en la página feed
     // 2. Poner esa función en PaginaBase (compleja)
