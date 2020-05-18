@@ -25,9 +25,6 @@ describe('Upload de Clontagram', () => {
     await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
     await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
-    // Hacer click en icono camara
-    // 1. Poner esa función en la página feed
-    // 2. Poner esa función en PaginaBase (compleja)
-    // 3. Módulo para representar a la barra de navegación
-  });
+    await paginaUpload.verificarPaginaUploadEsCorrecta();
+  }, 20000);
 });
