@@ -20,6 +20,20 @@ class PaginaUpload extends PaginaBase {
       visible: true,
     });
   }
+
+  async llenarCaption(caption) {
+    await this.page.waitForSelector(SELECTOR_TEXT_AREA_CAPTION);
+    await this.page.type(SELECTOR_TEXT_AREA_CAPTION, caption);
+  }
+
+  async elegirFotoParaUpload(pathImagen) {
+    await this.page.waitForSelector(SELECTOR_CAJA_ELIGE_FOTO);
+    const [fileChooser] = await Promise.all([
+      this.page.waitForFileChooser(),
+      this.page.click(SELECTOR_CAJA_ELIGE_FOTO),
+    ]);
+    await fileChooser.accept([pathImagen]);
+  }
 }
 
 module.exports = PaginaUpload;
