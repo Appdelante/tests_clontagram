@@ -1,4 +1,5 @@
 const path = require('path');
+const { generarStringRandomizado } = require('../data/generadorDeData');
 const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { clickIconoDeCamara } = require('../paginas/barraDeNavegacion');
 const { LOGIN_URL } = require('../configuracion/urls');
@@ -6,7 +7,6 @@ const PaginaLogin = require('../paginas/paginaLogin');
 const { CREDENCIALES_VALIDAS } = require('../data/credenciales');
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
-const CAPTION = 'Esta es mi foto del día!';
 const PATH_A_IMAGEN_A_SUBIR = path.join(
   __dirname,
   '..',
@@ -36,10 +36,11 @@ describe('Upload de Clontagram', () => {
   });
 
   test('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
+    const captionRandom = generarStringRandomizado();
     await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
     await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
-    await paginaUpload.llenarCaption(CAPTION);
+    await paginaUpload.llenarCaption(captionRandom);
     await paginaUpload.elegirFotoParaUpload(PATH_A_IMAGEN_A_SUBIR);
     await paginaUpload.verificarImagenEstaListaParaPostear();
 
@@ -51,7 +52,9 @@ describe('Upload de Clontagram', () => {
       href: `/perfil/${CREDENCIALES_VALIDAS.username}`,
     });
 
-    const caption = await paginaFeed.obtenerCatpionDelPrimerPost();
-    expect(caption).toEqual(`${CREDENCIALES_VALIDAS.username} ${CAPTION}`);
+    const caption = await paginaFeed.obtenerCaptionDelPrimerPost();
+    expect(caption).toEqual(
+      `${CREDENCIALES_VALIDAS.username} ${captionRandom}`
+    );
   });
 });

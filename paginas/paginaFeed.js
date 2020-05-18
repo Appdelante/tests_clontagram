@@ -24,7 +24,7 @@ class PaginaFeed {
     });
   }
 
-  async obtenerCatpionDelPrimerPost() {
+  async obtenerCaptionDelPrimerPost() {
     const primerPost = await this.page.waitForSelector(SELECTOR_CAJA_POST);
 
     return await primerPost.evaluate((elemento) => {

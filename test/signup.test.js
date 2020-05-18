@@ -1,4 +1,4 @@
-const { generarUsuario } = require('../generadorDeData');
+const { generarUsuario } = require('../data/generadorDeData');
 const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { SIGNUP_URL } = require('../configuracion/urls');
 const PaginaSignup = require('../paginas/paginaSignup');
