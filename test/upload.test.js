@@ -19,7 +19,6 @@ let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
     url: LOGIN_URL,
-    browserConfig: { headless: false, slowMo: 30 },
   });
   paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
@@ -34,20 +33,25 @@ describe('Upload de Clontagram', () => {
     await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
     await paginaUpload.verificarPaginaUploadEsCorrecta();
-  }, 20000);
+  });
 
   test('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
     await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
     await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
-    // 1. Poner caption
     await paginaUpload.llenarCaption(CAPTION);
-    // 2. Elegir una foto
     await paginaUpload.elegirFotoParaUpload(PATH_A_IMAGEN_A_SUBIR);
     await paginaUpload.verificarImagenEstaListaParaPostear();
-    // 3. Click en el boton post
-    await paginaUpload.clickPostImagen();
-    // 4. Verificar que estamos en el feed
-    // 5. Verificar que nuestro post que subimos esta visible
-  }, 20000);
+
+    const paginaFeed = await paginaUpload.clickPostImagen();
+
+    const dataDeUsuario = await paginaFeed.obtenerUsuarioDelPrimerPost();
+    expect(dataDeUsuario).toEqual({
+      texto: CREDENCIALES_VALIDAS.username,
+      href: `/perfil/${CREDENCIALES_VALIDAS.username}`,
+    });
+
+    const caption = await paginaFeed.obtenerCatpionDelPrimerPost();
+    expect(caption).toEqual(`${CREDENCIALES_VALIDAS.username} ${CAPTION}`);
+  });
 });
