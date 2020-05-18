@@ -1,8 +1,10 @@
 const PaginaBase = require('./paginaBase');
+const PaginaFeed = require('./paginaFeed');
 
 const SELECTOR_CAJA_ELIGE_FOTO = 'label[class="Upload__image-label"]';
 const SELECTOR_TEXT_AREA_CAPTION = 'textarea[name="caption"]';
 const SELECTOR_BOTON_POST = 'button[type="submit"]';
+const SELECTOR_IMAGEN_A_SUBIR = 'div[class="Upload__image-section"] > img';
 
 class PaginaUpload extends PaginaBase {
   constructor(page) {
@@ -33,6 +35,16 @@ class PaginaUpload extends PaginaBase {
       this.page.click(SELECTOR_CAJA_ELIGE_FOTO),
     ]);
     await fileChooser.accept([pathImagen]);
+  }
+
+  async clickPostImagen() {
+    await this.page.waitForSelector(SELECTOR_BOTON_POST);
+    await this.page.click(SELECTOR_BOTON_POST);
+    return new PaginaFeed(this.page);
+  }
+
+  async verificarImagenEstaListaParaPostear() {
+    await this.page.waitForSelector(SELECTOR_IMAGEN_A_SUBIR);
   }
 }
 

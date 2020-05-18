@@ -44,7 +44,9 @@ describe('Upload de Clontagram', () => {
     await paginaUpload.llenarCaption(CAPTION);
     // 2. Elegir una foto
     await paginaUpload.elegirFotoParaUpload(PATH_A_IMAGEN_A_SUBIR);
+    await paginaUpload.verificarImagenEstaListaParaPostear();
     // 3. Click en el boton post
+    await paginaUpload.clickPostImagen();
     // 4. Verificar que estamos en el feed
     // 5. Verificar que nuestro post que subimos esta visible
   }, 20000);
