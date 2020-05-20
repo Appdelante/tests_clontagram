@@ -1,9 +1,10 @@
 const path = require('path');
 const { generarStringRandomizado } = require('../data/generadorDeData');
-const { crearPagina } = require('../paginas/fabricaDePaginas');
+const {
+  crearPaginaQueRequiereAutenticacion,
+} = require('../paginas/fabricaDePaginas');
 const { clickIconoDeCamara } = require('../paginas/barraDeNavegacion');
-const { LOGIN_URL } = require('../configuracion/urls');
-const PaginaLogin = require('../paginas/paginaLogin');
+const { BASE_URL } = require('../configuracion/urls');
 const { CREDENCIALES_VALIDAS } = require('../data/credenciales');
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
@@ -15,12 +16,12 @@ const PATH_A_IMAGEN_A_SUBIR = path.join(
   'juego_snake.png'
 );
 
-let contexto, paginaLogin;
+let contexto;
 beforeEach(async () => {
-  contexto = await crearPagina({
-    url: LOGIN_URL,
+  contexto = await crearPaginaQueRequiereAutenticacion({
+    url: BASE_URL,
+    credenciales: CREDENCIALES_VALIDAS,
   });
-  paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
 
 afterEach(async () => {
@@ -29,16 +30,12 @@ afterEach(async () => {
 
 describe('Upload de Clontagram', () => {
   test('Hacer click en el icono de cámara debe llevar el usuario a la página /upload', async () => {
-    await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
-    await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
     await paginaUpload.verificarPaginaUploadEsCorrecta();
   });
 
   test('Subir una imagen debe llevar al usuario al feed done su post es mostrado', async () => {
     const captionRandom = generarStringRandomizado();
-    await paginaLogin.llenarFormularioDeLogin(CREDENCIALES_VALIDAS);
-    await paginaLogin.clickLogin();
     const paginaUpload = await clickIconoDeCamara(contexto.page);
     await paginaUpload.llenarCaption(captionRandom);
     await paginaUpload.elegirFotoParaUpload(PATH_A_IMAGEN_A_SUBIR);

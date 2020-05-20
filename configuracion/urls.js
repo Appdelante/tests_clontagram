@@ -8,6 +8,7 @@ const POST_EXISTENTE_URL = `${BASE_URL}/post/5ebd4083693b880007e60a36`;
 const API_LOGIN_URL = `${BASE_URL}/api/usuarios/login`;
 
 module.exports = {
+  BASE_URL,
   SIGNUP_URL,
   LOGIN_URL,
   POST_EXISTENTE_URL,
