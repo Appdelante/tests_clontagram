@@ -22,9 +22,16 @@ const CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS = {
   username: 'testlogincredsvalidas',
 };
 
+const CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS = {
+  email: 'danieltestpost2@gmail.com',
+  password: 'prueba',
+  username: 'danieltestpost2',
+};
+
 module.exports = {
   CREDENCIALES_VALIDAS,
   CREDENCIALES_EMAIL_NO_EXISTE,
   CREDENCIALES_PASSWORD_INCORRECTO,
   CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS,
+  CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS,
 };
