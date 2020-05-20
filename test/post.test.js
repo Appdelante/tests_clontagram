@@ -13,6 +13,7 @@ let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
     url: LOGIN_URL,
+    browserConfig: { headless: false },
   });
   paginaLogin = new PaginaLogin(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
@@ -29,15 +30,37 @@ describe('Vista Post de Clontagram', () => {
     );
     await paginaLogin.clickLogin();
 
-    contexto.page.goto(POST_EXISTENTE_URL, {
+    await contexto.page.waitForResponse((response) => {
+      return response.url().includes('/api/usuarios/login');
+    });
+
+    await contexto.page.goto(POST_EXISTENTE_URL, {
       waitUntil: 'networkidle0',
       timeout: 15000,
     });
 
     const paginaPost = new PaginaPost(contexto.page);
-    // 1. Hacemos login
-    // 2. Vamos a la pagina de un post
-    // 3. Damos like, verificamos que corazon es rojo
-    // 4. Quitamos like, verificamos corazon no es rojo
+
+    await Promise.all([
+      esperarAQueLlegueRespuestaSobreElLike(),
+      paginaPost.clickLike(),
+    ]);
+
+    let corazonEstaLleno = await paginaPost.verificarCorazonEstaLleno();
+    expect(corazonEstaLleno).toEqual(true);
+
+    await Promise.all([
+      esperarAQueLlegueRespuestaSobreElLike(),
+      paginaPost.clickLike(),
+    ]);
+
+    corazonEstaLleno = await paginaPost.verificarCorazonEstaLleno();
+    expect(corazonEstaLleno).toEqual(false);
   }, 20000);
 });
+
+async function esperarAQueLlegueRespuestaSobreElLike() {
+  return await contexto.page.waitForResponse((response) => {
+    return response.url().includes('/likes');
+  });
+}

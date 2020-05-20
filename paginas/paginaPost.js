@@ -1,4 +1,4 @@
-const PaginaBase = require('./basePage');
+const PaginaBase = require('./paginaBase');
 
 const SELECTOR_BOTON_LIKE = 'div[class="Post__like"] > button';
 const SELECTOR_ICONO_CORAZON = `${SELECTOR_BOTON_LIKE} > svg`;
