@@ -23,7 +23,7 @@ module.exports = async function obtenerTokenYDataDeAutenticacion({
   password,
 }) {
   try {
-    let respuesta = axios.post(API_LOGIN_URL, { email, password });
+    let respuesta = await axios.post(API_LOGIN_URL, { email, password });
     return respuesta.data;
   } catch (e) {
     throw new Error(

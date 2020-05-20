@@ -1,6 +1,8 @@
 const { generarStringRandomizado } = require('../data/generadorDeData');
-const { crearPagina } = require('../paginas/fabricaDePaginas');
-const { LOGIN_URL, POST_EXISTENTE_URL } = require('../configuracion/urls');
+const {
+  crearPaginaQueRequiereAutenticacion,
+} = require('../paginas/fabricaDePaginas');
+const { POST_EXISTENTE_URL } = require('../configuracion/urls');
 const PaginaLogin = require('../paginas/paginaLogin');
 const PaginaPost = require('../paginas/paginaPost');
 const {
@@ -9,13 +11,14 @@ const {
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
 
-let contexto, paginaLogin;
+let contexto, paginaPost;
 beforeEach(async () => {
-  contexto = await crearPagina({
-    url: LOGIN_URL,
+  contexto = await crearPaginaQueRequiereAutenticacion({
+    url: POST_EXISTENTE_URL,
+    credenciales: CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS,
     browserConfig: { headless: false },
   });
-  paginaLogin = new PaginaLogin(contexto.page);
+  paginaPost = new PaginaPost(contexto.page);
 }, TIMEOUT_INICIALIZAR_BROWSER);
 
 afterEach(async () => {
@@ -25,22 +28,6 @@ afterEach(async () => {
 describe('Vista Post de Clontagram', () => {
   // Estado: Este test depende de que el post al que naveguemos no tenga un like
   test('Puedo dar y quitar un like', async () => {
-    await paginaLogin.llenarFormularioDeLogin(
-      CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS
-    );
-    await paginaLogin.clickLogin();
-
-    await contexto.page.waitForResponse((response) => {
-      return response.url().includes('/api/usuarios/login');
-    });
-
-    await contexto.page.goto(POST_EXISTENTE_URL, {
-      waitUntil: 'networkidle0',
-      timeout: 15000,
-    });
-
-    const paginaPost = new PaginaPost(contexto.page);
-
     await Promise.all([
       esperarAQueLlegueRespuestaSobreElLike(),
       paginaPost.clickLike(),
