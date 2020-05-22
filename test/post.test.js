@@ -44,6 +44,12 @@ describe('Vista Post de Clontagram', () => {
     corazonEstaLleno = await paginaPost.verificarCorazonEstaLleno();
     expect(corazonEstaLleno).toEqual(false);
   }, 20000);
+
+  test('Puedo dejar un comentario en un post', async () => {
+    // 1. Navegar al post
+    // 2. Dejar un comentario
+    // 3. Verificar que el comentario aparece
+  });
 });
 
 async function esperarAQueLlegueRespuestaSobreElLike() {
