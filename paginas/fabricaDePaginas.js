@@ -4,7 +4,7 @@ const obtenerTokenYDataDeAutenticacion = require('../auth/autenticacion');
 
 async function crearPagina({
   url,
-  browserConfig = { headless: true },
+  browserConfig = __BROWSER_CONFIG__,
   pageConfig = {
     timeout: 15000, // 15 segundos
     waitUntil: 'networkidle0',
@@ -12,6 +12,10 @@ async function crearPagina({
 }) {
   const browser = await puppeteer.launch(browserConfig);
   const page = await browser.newPage();
+
+  if (__DISPOSITIVO_A_EMULAR__) {
+    await page.emulate(__DISPOSITIVO_A_EMULAR__);
+  }
 
   await page.goto(url, pageConfig);
 
@@ -24,7 +28,7 @@ async function crearPagina({
 async function crearPaginaQueRequiereAutenticacion({
   url,
   credenciales,
-  browserConfig = { headless: true },
+  browserConfig = __BROWSER_CONFIG__,
   pageConfig = {
     timeout: 15000, // 15 segundos
     waitUntil: 'networkidle0',
@@ -32,6 +36,10 @@ async function crearPaginaQueRequiereAutenticacion({
 }) {
   const browser = await puppeteer.launch(browserConfig);
   const page = await browser.newPage();
+
+  if (__DISPOSITIVO_A_EMULAR__) {
+    await page.emulate(__DISPOSITIVO_A_EMULAR__);
+  }
 
   await page.goto(LOGIN_URL, pageConfig);
 

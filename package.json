@@ -4,8 +4,8 @@
   "description": "Tests de Automatización de UI para clontagram.com",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test-config": "jest --config=test-config/base.js"
+    "test-mobile": "jest --config=test-config/mobile.js",
+    "test-desktop": "jest --config=test-config/desktop.js"
   },
   "repository": {
     "type": "git",

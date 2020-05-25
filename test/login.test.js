@@ -11,7 +11,6 @@ let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
     url: LOGIN_URL,
-    browserConfig: { headless: true },
   });
   paginaLogin = new PaginaLogin(contexto.page);
 }, __TIMEOUT_INICIALIZAR_BROWSER__);

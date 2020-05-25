@@ -13,9 +13,6 @@ beforeEach(async () => {
   contexto = await crearPaginaQueRequiereAutenticacion({
     url: POST_EXISTENTE_URL,
     credenciales: CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS,
-    browserConfig: {
-      defaultViewport: { width: 1600, height: 1000 },
-    },
   });
   paginaPost = new PaginaPost(contexto.page);
 }, __TIMEOUT_INICIALIZAR_BROWSER__);
