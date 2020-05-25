@@ -7,7 +7,6 @@ const { clickIconoDeCamara } = require('../paginas/barraDeNavegacion');
 const { BASE_URL } = require('../configuracion/urls');
 const { CREDENCIALES_VALIDAS } = require('../data/credenciales');
 
-const TIMEOUT_INICIALIZAR_BROWSER = 15000;
 const PATH_A_IMAGEN_A_SUBIR = path.join(
   __dirname,
   '..',
@@ -22,7 +21,7 @@ beforeEach(async () => {
     url: BASE_URL,
     credenciales: CREDENCIALES_VALIDAS,
   });
-}, TIMEOUT_INICIALIZAR_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
 afterEach(async () => {
   await contexto.browser.close();

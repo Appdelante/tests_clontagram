@@ -8,8 +8,6 @@ const {
   CREDENCIALES_USUARIO_PARA_TESTS_DE_POSTS,
 } = require('../data/credenciales');
 
-const TIMEOUT_INICIALIZAR_BROWSER = 15000;
-
 let contexto, paginaPost;
 beforeEach(async () => {
   contexto = await crearPaginaQueRequiereAutenticacion({
@@ -20,7 +18,7 @@ beforeEach(async () => {
     },
   });
   paginaPost = new PaginaPost(contexto.page);
-}, TIMEOUT_INICIALIZAR_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
 afterEach(async () => {
   await contexto.browser.close();
@@ -38,7 +36,7 @@ describe('Vista Post de Clontagram', () => {
       paginaPost.esperarQueEstadoDeLikeCambie(),
       paginaPost.clickLike(),
     ]);
-  }, 20000);
+  });
 
   test('Puedo dejar un comentario en un post', async () => {
     const randomString = generarStringRandomizado();

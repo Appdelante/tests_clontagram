@@ -7,8 +7,6 @@ const {
   CREDENCIALES_PASSWORD_INCORRECTO,
 } = require('../data/credenciales');
 
-const TIMEOUT_INICIALIZAR_BROWSER = 15000;
-
 let contexto, paginaLogin;
 beforeEach(async () => {
   contexto = await crearPagina({
@@ -16,7 +14,7 @@ beforeEach(async () => {
     browserConfig: { headless: true },
   });
   paginaLogin = new PaginaLogin(contexto.page);
-}, TIMEOUT_INICIALIZAR_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
 afterEach(async () => {
   await contexto.browser.close();

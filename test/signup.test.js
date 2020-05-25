@@ -3,8 +3,6 @@ const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { SIGNUP_URL } = require('../configuracion/urls');
 const PaginaSignup = require('../paginas/paginaSignup');
 
-const TIMEOUT_INICIALIZAR_BROWSER = 15000;
-
 const USUARIO_CON_EMAIL_YA_REGISTRADO = {
   ...generarUsuario(),
   email: 'pruebaprueba@gmail.com',
@@ -19,7 +17,7 @@ let contexto, paginaSignup;
 beforeEach(async () => {
   contexto = await crearPagina({ url: SIGNUP_URL });
   paginaSignup = new PaginaSignup(contexto.page);
-}, TIMEOUT_INICIALIZAR_BROWSER);
+}, __TIMEOUT_INICIALIZAR_BROWSER__);
 
 afterEach(async () => {
   await contexto.browser.close();
