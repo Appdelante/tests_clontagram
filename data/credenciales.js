@@ -16,8 +16,15 @@ const CREDENCIALES_PASSWORD_INCORRECTO = {
   username: 'prueba',
 };
 
+const CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS = {
+  email: 'testlogincredsvalidas@gmail.com',
+  password: 'prueba',
+  username: 'testlogincredsvalidas',
+};
+
 module.exports = {
   CREDENCIALES_VALIDAS,
   CREDENCIALES_EMAIL_NO_EXISTE,
   CREDENCIALES_PASSWORD_INCORRECTO,
+  CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS,
 };

@@ -2,7 +2,7 @@ const { crearPagina } = require('../paginas/fabricaDePaginas');
 const { LOGIN_URL } = require('../configuracion/urls');
 const PaginaLogin = require('../paginas/paginaLogin');
 const {
-  CREDENCIALES_VALIDAS,
+  CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS,
   CREDENCIALES_EMAIL_NO_EXISTE,
   CREDENCIALES_PASSWORD_INCORRECTO,
 } = require('../data/credenciales');
@@ -25,8 +25,8 @@ afterEach(async () => {
 describe('Login de Clontagram', () => {
   test('Debe lleva al usuario al feed luego de hacer login con credenciales validas', async () => {
     await paginaLogin.llenarFormularioDeLogin({
-      email: CREDENCIALES_VALIDAS.email,
-      password: CREDENCIALES_VALIDAS.password,
+      email: CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS.email,
+      password: CREDENCIALS_NO_SIGUE_A_NADIE_NO_HA_SUBIDO_FOTOS.password,
     });
     const paginaFeed = await paginaLogin.clickLogin();
     await paginaFeed.verificarFeedVacioSugiereExploraClontagram();
