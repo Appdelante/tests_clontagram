@@ -9,8 +9,6 @@ const {
 } = require('../data/credenciales');
 
 const TIMEOUT_INICIALIZAR_BROWSER = 15000;
-const RUTA_LIKES = '/likes';
-const RUTA_COMENTARIOS = '/comentarios';
 
 let contexto, paginaPost;
 beforeEach(async () => {
@@ -29,30 +27,24 @@ afterEach(async () => {
 });
 
 describe('Vista Post de Clontagram', () => {
-  // Estado: Este test depende de que el post al que naveguemos no tenga un like
+  
   test('Puedo dar y quitar un like', async () => {
     await Promise.all([
-      verificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+      paginaPost.esperarQueEstadoDeLikeCambie(),
       paginaPost.clickLike(),
     ]);
-
-    let corazonEstaLleno = await paginaPost.verificarCorazonEstaLleno();
-    expect(corazonEstaLleno).toEqual(true);
 
     await Promise.all([
-      verificarQueLlegaRespuestaDeRuta(RUTA_LIKES),
+      paginaPost.esperarQueEstadoDeLikeCambie(),
       paginaPost.clickLike(),
     ]);
-
-    corazonEstaLleno = await paginaPost.verificarCorazonEstaLleno();
-    expect(corazonEstaLleno).toEqual(false);
   }, 20000);
 
   test('Puedo dejar un comentario en un post', async () => {
     const randomString = generarStringRandomizado();
 
     await Promise.all([
-      verificarQueLlegaRespuestaDeRuta(RUTA_COMENTARIOS),
+      paginaPost.esperarQueComentarioAparezcaEnElDOM(),
       paginaPost.dejarComentario(randomString),
     ]);
 
@@ -62,9 +54,3 @@ describe('Vista Post de Clontagram', () => {
     );
   });
 });
-
-async function verificarQueLlegaRespuestaDeRuta(ruta) {
-  return await contexto.page.waitForResponse((response) => {
-    return response.url().includes(ruta);
-  });
-}
